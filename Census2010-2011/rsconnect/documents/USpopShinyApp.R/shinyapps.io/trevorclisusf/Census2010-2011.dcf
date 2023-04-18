@@ -1,0 +1,13 @@
+name: Census2010-2011
+title: Census2010-2011
+username:
+account: trevorclisusf
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8881256
+bundleId: 7103061
+url: https://trevorclisusf.shinyapps.io/Census2010-2011/
+when: 1681800392.30261
+lastSyncTime: 1681800392.30262
+asMultiple: FALSE
+asStatic: FALSE
