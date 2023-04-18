@@ -10,29 +10,29 @@
 library(shiny)
 library(ggplot2)
 library(rsconnect)
+#reads in the url for the data
+urltoread <- "http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"
+#Transfer to a data frame object
+censusDatadf <- read.csv(url(urltoread))
+#Data is very messy here.
+head(censusDatadf)
+summary(censusDatadf)
 
+#Delete unnecessary rows and column
+censusDatadf <- censusDatadf[,-6:-10]
+censusDatadf <- censusDatadf[-60:-66,]
+censusDatadf <- censusDatadf[-1:-8,]
+#Change colomn names to be read more cleanly
+colnames(censusDatadf) <- c("State", "April10census", "April10Base", "July10pop", "July11pop")
+# Remove commas from values and gsub into numeric values.
+censusDatadf$State <- gsub("\\.","", censusDatadf$State)
+censusDatadf$April10census <- as.numeric(gsub(",", "", censusDatadf$April10census))
+censusDatadf$April10Base <- as.numeric(gsub(",", "", censusDatadf$April10Base))
+censusDatadf$July10pop <- as.numeric(gsub(",", "", censusDatadf$July10pop))
+censusDatadf$July11pop <- as.numeric(gsub(",", "", censusDatadf$July11pop))
 
-
-#readCensus function is there to perform basic data read in and cleaning duties. 
-readCensus <- function()
-{
-  #reads in the url for the data
-  urltoread <- "http://www2.census.gov/programs-surveys/popest/tables/2010-2011/state/totals/nst-est2011-01.csv"
-  #Transfer to a data frame object
-  censusDatadf <- read.csv(url(urltoread))
-  #Delete unnecessary rows and column
-  censusDatadf <- censusDatadf[,-6:-10]
-  censusDatadf <- censusDatadf[-60:-66,]
-  censusDatadf <- censusDatadf[-1:-8,]
-  #Change colomn names to be read more cleanly
-  colnames(censusDatadf) <- c("State", "April10census", "April10Base", "July10pop", "July11pop")
-  # Remove commas from values and gsub into numeric values.
-  censusDatadf$State <- gsub("\\.","", censusDatadf$State)
-  censusDatadf$April10census <- as.numeric(gsub(",", "", censusDatadf$April10census))
-  censusDatadf$April10Base <- as.numeric(gsub(",", "", censusDatadf$April10Base))
-  censusDatadf$July10pop <- as.numeric(gsub(",", "", censusDatadf$July10pop))
-  censusDatadf$July11pop <- as.numeric(gsub(",", "", censusDatadf$July11pop))
-}
+#view after cleaning. 
+head(censusDatadf)
 # this is where the UI of the shiny app is created.
 # There are going to be four variables that you can choose from for the ggplot. 
 # we have 4 options: State, July 2011 Population, Change in pop, and percent change in population.
